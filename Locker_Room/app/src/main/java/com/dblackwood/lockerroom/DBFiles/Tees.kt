@@ -2,10 +2,13 @@ package com.dblackwood.lockerroom.DBFiles
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import java.text.DecimalFormat
 
-@Entity(tableName = "tees", primaryKeys = ["tees_id","locker_id"])
+@Entity(tableName = "tees")
 data class Tees (
+        @PrimaryKey(autoGenerate = true) var tee_id: Int,
+        @ColumnInfo(name = "locker_id") var lck_id: Int,
         @ColumnInfo(name = "price") var prc: DecimalFormat,
         @ColumnInfo(name = "brand") var brnd: String,
         @ColumnInfo(name = "quantity") var qty: Int,
