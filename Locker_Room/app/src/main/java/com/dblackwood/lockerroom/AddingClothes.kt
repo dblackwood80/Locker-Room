@@ -1,5 +1,6 @@
 package com.dblackwood.lockerroom
 
+import android.content.Intent
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -17,7 +18,7 @@ class AddingClothes : AppCompatActivity() {
 
         val rg: RadioGroup = findViewById(R.id.ClothingGroup)
         var selected: RadioButton
-        var nxtBtn: Button = findViewById(R.id.clothinNxtBtn)
+        var nxtBtn: Button = findViewById(R.id.clothingNxtBtn)
 
         Log.i("WHAT: ", rg.checkedRadioButtonId.toString())
 
@@ -44,7 +45,10 @@ class AddingClothes : AppCompatActivity() {
 
                     nxtBtn.setOnClickListener()
                     {
-                        
+                        //val clothingType: String =
+
+                        val intent = Intent(this@AddingClothes, AddClothingInfo::class.java)
+                        startActivity(intent)
                     }
                 }
             }

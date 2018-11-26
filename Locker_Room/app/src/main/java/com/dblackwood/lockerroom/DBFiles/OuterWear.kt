@@ -11,7 +11,7 @@ data class OuterWear (
         @ColumnInfo(name = "price") var prc: Double,
         @ColumnInfo(name = "brand") var brnd: String,
         @ColumnInfo(name = "quantity") var qty: Int,
-        @ColumnInfo(name = "description") var descrip: String,
+        @ColumnInfo(name = "description") var descrip: String?,
         @ColumnInfo(name = "color") var clr: String,
         @ColumnInfo(name = "size") var sz: String
 ){
