@@ -1,13 +1,15 @@
-package com.dblackwood.lockerroom.DBFiles
+package com.dblackwood.lockerroom.dbfiles
 
+import android.arch.persistence.room.Dao
+import android.arch.persistence.room.Delete
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
-import java.text.DecimalFormat
 
+@Dao
 interface LockerDAO {
     @Insert()
-    fun insertLocker(lockID: Int, name: String)
+    fun insertLocker(lock: Locker)
 
-    @Query("DELETE FROM accessories where locker_id = :l")
-    fun deleteLocker(l: Int)
+    @Delete()
+    fun deleteLocker(lock: Locker)
 }
