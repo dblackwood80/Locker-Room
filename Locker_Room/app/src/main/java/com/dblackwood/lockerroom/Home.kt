@@ -3,9 +3,7 @@ package com.dblackwood.lockerroom
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
-import android.widget.EditText
 import com.dblackwood.lockerroom.dbfiles.AppDataBase
 
 class Home : AppCompatActivity() {
@@ -19,12 +17,8 @@ class Home : AppCompatActivity() {
         val btnAddLocker = findViewById<Button>(R.id.btn_addLocker)
         btnAddLocker.setOnClickListener()
         {
-            var txt = findViewById<EditText>(R.id.lockerName)
-            txt.visibility = View.VISIBLE
-
-            /*txt.setOnKeyListener() {v, keyCode, event ->
-                if (keyCode = )
-            }*/
+            val intent = Intent(this, LockerPage::class.java)
+            startActivity(intent)
         }
 
         val btnAddClothes = findViewById<Button>(R.id.btn_addClothes)

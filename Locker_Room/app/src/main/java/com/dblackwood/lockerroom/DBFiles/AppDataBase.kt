@@ -27,8 +27,7 @@ abstract class AppDataBase : RoomDatabase() {
             {
                 synchronized(AppDataBase::class) {
                     INSTANCE = Room.databaseBuilder(context.applicationContext,
-                            AppDataBase::class.java, "Clothing.db").allowMainThreadQueries()
-                            .build()
+                            AppDataBase::class.java, "Clothing.db").build()
                 }
             }
 

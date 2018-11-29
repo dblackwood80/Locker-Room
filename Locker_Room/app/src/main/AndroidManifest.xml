@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".Locker" />
         <activity android:name=".AddingClothes" />
-        <activity android:name=".AddClothingInfo"></activity>
+        <activity android:name=".AddClothingInfo" />
+        <activity android:name=".LockerPage"></activity>
     </application>
 
 </manifest>
