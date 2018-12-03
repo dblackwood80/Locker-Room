@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".DeleteLockerPage">
+
+    <ImageView
+        android:id="@+id/imageViewTrash"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="295dp"
+        android:layout_marginTop="8dp"
+        android:adjustViewBounds="false"
+        android:clickable="true"
+        android:contentDescription="DELETE"
+        android:focusable="auto"
+        android:focusableInTouchMode="true"
+        android:visibility="gone"
+        app:srcCompat="@android:drawable/ic_menu_delete" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/delete_locker_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

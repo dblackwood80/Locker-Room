@@ -17,7 +17,14 @@ class Home : AppCompatActivity() {
         val btnAddLocker = findViewById<Button>(R.id.btn_addLocker)
         btnAddLocker.setOnClickListener()
         {
-            val intent = Intent(this, LockerPage::class.java)
+            val intent = Intent(this, AddLockerPage::class.java)
+            startActivity(intent)
+        }
+
+        val btnDeleteLocker = findViewById<Button>(R.id.btn_removeLocker)
+        btnDeleteLocker.setOnClickListener()
+        {
+            val intent = Intent(this, DeleteLockerPage::class.java)
             startActivity(intent)
         }
 

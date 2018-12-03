@@ -10,8 +10,14 @@ interface LockerDAO {
     @Query("SELECT * FROM locker")
     fun getAll(): List<Locker>
 
+    @Query("SELECT COUNT(*) FROM locker")
+    fun getSize(): Long
+
     @Query("SELECT locker_name FROM locker WHERE locker_name = :name")
     fun checkLockerExist(name: String): List<LockNameVar>?
+
+    @Query("SELECT * FROM locker WHERE locker_name = :name")
+    fun getID(name: String): Int
 
     @Delete()
     fun deleteLocker(lock: Locker)

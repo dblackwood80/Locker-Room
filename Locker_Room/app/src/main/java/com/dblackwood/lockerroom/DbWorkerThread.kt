@@ -13,6 +13,9 @@ class DbWorkerThread(threadName: String) : HandlerThread(threadName) {
     }
 
     fun postTask(task: Runnable) {
+        if (!this::mWorkerHandler.isInitialized)
+            onLooperPrepared()
+
         mWorkerHandler.post(task)
     }
 

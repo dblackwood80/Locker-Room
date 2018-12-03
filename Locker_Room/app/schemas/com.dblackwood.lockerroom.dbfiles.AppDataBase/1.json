@@ -1,0 +1,535 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "7c2b1f7ae19ba7e48d4c0d4c7737b999",
+    "entities": [
+      {
+        "tableName": "accessories",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`acce_id` INTEGER PRIMARY KEY AUTOINCREMENT, `locker_id` INTEGER NOT NULL, `price` REAL NOT NULL, `brand` TEXT NOT NULL, `quantity` INTEGER NOT NULL, `description` TEXT, `color` TEXT NOT NULL, `size` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "acce_id",
+            "columnName": "acce_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lck_id",
+            "columnName": "locker_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "prc",
+            "columnName": "price",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "brnd",
+            "columnName": "brand",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "qty",
+            "columnName": "quantity",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "descrip",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "clr",
+            "columnName": "color",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sz",
+            "columnName": "size",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "acce_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "dresses",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dress_id` INTEGER PRIMARY KEY AUTOINCREMENT, `locker_id` INTEGER NOT NULL, `price` REAL NOT NULL, `brand` TEXT NOT NULL, `quantity` INTEGER NOT NULL, `description` TEXT, `color` TEXT NOT NULL, `size` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "dress_id",
+            "columnName": "dress_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lck_id",
+            "columnName": "locker_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "prc",
+            "columnName": "price",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "brnd",
+            "columnName": "brand",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "qty",
+            "columnName": "quantity",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "descrip",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "clr",
+            "columnName": "color",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sz",
+            "columnName": "size",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "dress_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "locker",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`locker_id` INTEGER PRIMARY KEY AUTOINCREMENT, `locker_name` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "locker_id",
+            "columnName": "locker_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "locker_name",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "locker_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "other",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`oth_id` INTEGER PRIMARY KEY AUTOINCREMENT, `locker_id` INTEGER NOT NULL, `price` REAL NOT NULL, `brand` TEXT NOT NULL, `quantity` INTEGER NOT NULL, `description` TEXT, `color` TEXT NOT NULL, `size` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "oth_id",
+            "columnName": "oth_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lck_id",
+            "columnName": "locker_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "prc",
+            "columnName": "price",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "brnd",
+            "columnName": "brand",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "qty",
+            "columnName": "quantity",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "descrip",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "clr",
+            "columnName": "color",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sz",
+            "columnName": "size",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "oth_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "outerwear",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`outer_id` INTEGER PRIMARY KEY AUTOINCREMENT, `locker_id` INTEGER NOT NULL, `price` REAL NOT NULL, `brand` TEXT NOT NULL, `quantity` INTEGER NOT NULL, `description` TEXT, `color` TEXT NOT NULL, `size` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "outer_id",
+            "columnName": "outer_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lck_id",
+            "columnName": "locker_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "prc",
+            "columnName": "price",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "brnd",
+            "columnName": "brand",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "qty",
+            "columnName": "quantity",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "descrip",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "clr",
+            "columnName": "color",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sz",
+            "columnName": "size",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "outer_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "pants",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`pant_id` INTEGER PRIMARY KEY AUTOINCREMENT, `locker_id` INTEGER NOT NULL, `price` REAL NOT NULL, `brand` TEXT NOT NULL, `quantity` INTEGER NOT NULL, `description` TEXT, `color` TEXT NOT NULL, `size` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "pant_id",
+            "columnName": "pant_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lck_id",
+            "columnName": "locker_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "prc",
+            "columnName": "price",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "brnd",
+            "columnName": "brand",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "qty",
+            "columnName": "quantity",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "descrip",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "clr",
+            "columnName": "color",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sz",
+            "columnName": "size",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "pant_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "shoes",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`shoe_id` INTEGER PRIMARY KEY AUTOINCREMENT, `locker_id` INTEGER NOT NULL, `price` REAL NOT NULL, `brand` TEXT NOT NULL, `quantity` INTEGER NOT NULL, `description` TEXT, `color` TEXT NOT NULL, `size` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "shoe_id",
+            "columnName": "shoe_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lck_id",
+            "columnName": "locker_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "prc",
+            "columnName": "price",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "brnd",
+            "columnName": "brand",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "qty",
+            "columnName": "quantity",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "descrip",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "clr",
+            "columnName": "color",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sz",
+            "columnName": "size",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "shoe_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "socks",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`sock_id` INTEGER PRIMARY KEY AUTOINCREMENT, `locker_id` INTEGER NOT NULL, `price` REAL NOT NULL, `brand` TEXT NOT NULL, `quantity` INTEGER NOT NULL, `description` TEXT, `color` TEXT NOT NULL, `size` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "sock_id",
+            "columnName": "sock_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lck_id",
+            "columnName": "locker_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "prc",
+            "columnName": "price",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "brnd",
+            "columnName": "brand",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "qty",
+            "columnName": "quantity",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "descrip",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "clr",
+            "columnName": "color",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sz",
+            "columnName": "size",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "sock_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "tees",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tee_id` INTEGER PRIMARY KEY AUTOINCREMENT, `locker_id` INTEGER NOT NULL, `price` REAL NOT NULL, `brand` TEXT NOT NULL, `quantity` INTEGER NOT NULL, `description` TEXT, `color` TEXT NOT NULL, `size` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "tee_id",
+            "columnName": "tee_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lck_id",
+            "columnName": "locker_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "prc",
+            "columnName": "price",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "brnd",
+            "columnName": "brand",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "qty",
+            "columnName": "quantity",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "descrip",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "clr",
+            "columnName": "color",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sz",
+            "columnName": "size",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "tee_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"7c2b1f7ae19ba7e48d4c0d4c7737b999\")"
+    ]
+  }
+}

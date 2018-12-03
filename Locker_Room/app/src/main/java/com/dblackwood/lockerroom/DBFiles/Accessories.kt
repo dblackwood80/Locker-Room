@@ -5,7 +5,7 @@ import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = "accessories")
-data class Accessories (
+class Accessories(
         @PrimaryKey(autoGenerate = true) var acce_id: Long?,
         @ColumnInfo(name = "locker_id") var lck_id: Int,
         @ColumnInfo(name = "price") var prc: Double,
@@ -14,6 +14,8 @@ data class Accessories (
         @ColumnInfo(name = "description") var descrip: String?,
         @ColumnInfo(name = "color") var clr: String,
         @ColumnInfo(name = "size") var sz: String
-){
+)
+
+{
     constructor():this(0,0,0.0,"",0,"","","")
 }

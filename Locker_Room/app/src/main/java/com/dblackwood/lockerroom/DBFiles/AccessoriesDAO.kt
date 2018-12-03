@@ -11,6 +11,12 @@ interface AccessoriesDAO {
     @Insert()
     fun insertAcce(item: Accessories)
 
+    @Query("SELECT * FROM accessories")
+    fun getAll(): List<Accessories>
+
+    @Query("SELECT COUNT(*) FROM accessories")
+    fun getSize(): Long
+
     @Delete()
-    fun deleteAcce(lock: Locker)
+    fun deleteAcce(item: Accessories)
 }

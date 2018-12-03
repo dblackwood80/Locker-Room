@@ -47,7 +47,8 @@ class AddingClothes : AppCompatActivity() {
                     {
                         //val clothingType: String =
 
-                        val intent = Intent(this@AddingClothes, AddClothingInfo::class.java)
+                        val intent = Intent(this@AddingClothes, ChooseLocker::class.java)
+                        intent.putExtra("ClothingType", selected.text.toString())
                         startActivity(intent)
                     }
                 }

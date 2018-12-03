@@ -16,10 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Locker" />
         <activity android:name=".AddingClothes" />
-        <activity android:name=".AddClothingInfo" />
-        <activity android:name=".LockerPage"></activity>
+        <activity android:name=".AddClothingInfo" android:windowSoftInputMode="adjustPan|stateVisible"/>
+        <activity android:name=".AddLockerPage" />
+        <activity android:name=".ChooseLocker" />
+        <activity android:name=".DeleteLockerPage"></activity>
     </application>
 
 </manifest>
