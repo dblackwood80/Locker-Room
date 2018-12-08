@@ -6,7 +6,7 @@ import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = "locker")
 data class Locker (
-        @PrimaryKey(autoGenerate = true) var locker_id: Long?,
+        @PrimaryKey(autoGenerate = true) var locker_id: Int,
         @ColumnInfo(name = "locker_name") var name: String
 ){
     constructor():this(0,"")

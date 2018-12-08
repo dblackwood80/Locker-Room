@@ -14,10 +14,6 @@ import com.dblackwood.lockerroom.dbfiles.Accessories
 class DataAdapter (private val myDataset: MutableList<String>) :
         RecyclerView.Adapter<DataAdapter.ViewHolder>() {
 
-    constructor (myDataset: MutableList<String>, n: MutableList<Accessories>) : this(myDataset) {
-
-    }
-
     val l:DeleteLockerPage = DeleteLockerPage()
 
     // Provide a reference to the views for each data item

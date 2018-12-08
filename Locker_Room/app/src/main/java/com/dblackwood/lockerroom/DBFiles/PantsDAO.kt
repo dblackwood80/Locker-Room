@@ -13,6 +13,9 @@ interface PantsDAO {
     @Query("SELECT * FROM pants")
     fun getAll(): List<Pants>
 
+    @Query("SELECT * FROM pants WHERE locker_id = :ID")
+    fun getByLocker(ID: Long): List<Pants>
+
     @Query("SELECT COUNT(*) FROM pants")
     fun getSize(): Long
 

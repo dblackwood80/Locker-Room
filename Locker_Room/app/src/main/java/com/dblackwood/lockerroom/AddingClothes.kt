@@ -20,7 +20,14 @@ class AddingClothes : AppCompatActivity() {
         var selected: RadioButton
         var nxtBtn: Button = findViewById(R.id.clothingNxtBtn)
 
+        val intent: Intent = intent
+        val deleting: Boolean? = intent.extras?.getBoolean("DeletingCloth")
+        val updating: Boolean? = intent.extras?.getBoolean("UpdatingClothing")
+        val searching: Boolean? = intent.extras?.getBoolean("SearchingClothing")
+
         Log.i("WHAT: ", rg.checkedRadioButtonId.toString())
+
+        Log.i("CURRENT CLASS: ", localClassName)
 
         rg.setOnCheckedChangeListener(object: RadioGroup.OnCheckedChangeListener {
             override fun onCheckedChanged(group: RadioGroup, checkedId: Int) {
@@ -47,9 +54,42 @@ class AddingClothes : AppCompatActivity() {
                     {
                         //val clothingType: String =
 
-                        val intent = Intent(this@AddingClothes, ChooseLocker::class.java)
-                        intent.putExtra("ClothingType", selected.text.toString())
-                        startActivity(intent)
+                        if (deleting!!)
+                        {
+                            val intent = Intent(this@AddingClothes, DeleteClothes::class.java)
+                            intent.putExtra("ClothingType", selected.text.toString())
+                            startActivity(intent)
+                            finish()
+                        }
+                        else
+                        {
+                            val intent = Intent(this@AddingClothes, ChooseLocker::class.java)
+                            intent.putExtra("ClothingType", selected.text.toString())
+                            startActivity(intent)
+                            finish()
+                        }
+
+                        if (updating!!)
+                        {
+                            val intent = Intent(this@AddingClothes, ChooseLocker::class.java)
+                            var extras = Bundle()
+                            extras.putBoolean("UpdatingClothing", true)
+                            extras.putString("ClothingType", selected.text.toString())
+                            intent.putExtras(extras)
+                            startActivity(intent)
+                            finish()
+                        }
+
+                        if (searching!!)
+                        {
+                            val intent = Intent(this@AddingClothes, ChooseLocker::class.java)
+                            var extras = Bundle()
+                            extras.putBoolean("SearchingClothing", true)
+                            extras.putString("ClothingType", selected.text.toString())
+                            intent.putExtras(extras)
+                            startActivity(intent)
+                            finish()
+                        }
                     }
                 }
             }

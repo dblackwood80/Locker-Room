@@ -36,9 +36,14 @@ class ChooseLocker : AppCompatActivity() {
 
         val intent: Intent = intent
         val articleType: String? = intent.extras?.getString("ClothingType")
+        val updating: Boolean? = intent.extras?.getBoolean("UpdatingClothing")
+        val searching: Boolean? = intent.extras?.getBoolean("SearchingClothing")
+
+        Log.i("CURRENT CLASS: ", localClassName)
 
         viewManager = LinearLayoutManager(this)
         var myDataset: MutableList<String> = arrayListOf()
+        var ids: MutableList<Locker> = arrayListOf()
 
         val task = Runnable { val listOfLockers = cDb?.lockerDAO()?.getAll()
 
@@ -46,6 +51,7 @@ class ChooseLocker : AppCompatActivity() {
                 for (n in listOfLockers)
                 {
                     myDataset.add(n.name)
+                    ids.add(n)
                 }
             }
         }
@@ -129,12 +135,61 @@ class ChooseLocker : AppCompatActivity() {
                         val r = recyclerView.findViewHolderForAdapterPosition(pos!!)?.itemView?.findViewById<TextView>(R.id.deleteLockerNames)
                         Log.i("NAME: ", r?.text.toString())
 
-                        val ref = Intent(baseContext, AddClothingInfo::class.java) //dont forget to pass clothing type and locker name/id
-                        var extras = Bundle()
-                        extras.putString("ClothingType", articleType)
-                        extras.putString("LockerName", r?.text.toString())
-                        ref.putExtras(extras)
-                        startActivity(ref)
+                        if (updating!!)
+                        {
+                            var passID: Int = 0
+
+                            for (i in ids)
+                            {
+                                if (r?.text.toString() == i.name.toString())
+                                    passID = i.locker_id!!
+                            }
+
+                            val ref = Intent(baseContext, SearchClothing::class.java) //dont forget to pass clothing type and locker name/id
+                            var extras = Bundle()
+                            extras.putString("ClothingType", articleType)
+                            extras.putString("LockerName", r?.text.toString())
+                            extras.putInt("PassID", passID)
+                            extras.putBoolean("UpdatingClothing", true)
+                            ref.putExtras(extras)
+                            startActivity(ref)
+                            finish()
+                        }
+
+                        else if (searching!!)
+                        {
+                            var passID: Int = 0
+
+                            for (i in ids)
+                            {
+                                if (r?.text.toString() == i.name.toString())
+                                    passID = i.locker_id!!
+                            }
+
+
+                            val ref = Intent(baseContext, AddClothingInfo::class.java) //dont forget to pass clothing type and locker name/id
+                            var extras = Bundle()
+                            extras.putString("ClothingType", articleType)
+                            extras.putString("LockerName", r?.text.toString())
+                            extras.putInt("PassID", passID)
+                            extras.putBoolean("SearchingClothing", true)
+                            ref.putExtras(extras)
+                            startActivity(ref)
+                            finish()
+                        }
+
+
+
+                        else {
+
+                            val ref = Intent(baseContext, AddClothingInfo::class.java) //dont forget to pass clothing type and locker name/id
+                            var extras = Bundle()
+                            extras.putString("ClothingType", articleType)
+                            extras.putString("LockerName", r?.text.toString())
+                            ref.putExtras(extras)
+                            startActivity(ref)
+                            finish()
+                        }
                     }
                 }
 

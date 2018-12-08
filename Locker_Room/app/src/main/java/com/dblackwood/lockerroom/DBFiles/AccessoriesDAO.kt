@@ -14,6 +14,9 @@ interface AccessoriesDAO {
     @Query("SELECT * FROM accessories")
     fun getAll(): List<Accessories>
 
+    @Query("SELECT * FROM accessories WHERE locker_id = :ID")
+    fun getByLocker(ID: Long): List<Accessories>
+
     @Query("SELECT COUNT(*) FROM accessories")
     fun getSize(): Long
 

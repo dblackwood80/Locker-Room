@@ -13,6 +13,9 @@ interface OuterWearDAO {
     @Query("SELECT * FROM outerwear")
     fun getAll(): List<OuterWear>
 
+    @Query("SELECT * FROM outerwear WHERE locker_id = :ID")
+    fun getByLocker(ID: Long): List<OuterWear>
+
     @Query("SELECT COUNT(*) FROM outerwear")
     fun getSize(): Long
 

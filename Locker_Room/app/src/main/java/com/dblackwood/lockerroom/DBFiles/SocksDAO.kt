@@ -13,6 +13,9 @@ interface SocksDAO {
     @Query("SELECT * FROM socks")
     fun getAll(): List<Socks>
 
+    @Query("SELECT * FROM socks WHERE locker_id = :ID")
+    fun getByLocker(ID: Long): List<Socks>
+
     @Query("SELECT COUNT(*) FROM socks")
     fun getSize(): Long
 

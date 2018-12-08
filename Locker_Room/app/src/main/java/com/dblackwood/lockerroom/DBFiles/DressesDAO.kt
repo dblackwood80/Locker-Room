@@ -13,6 +13,9 @@ interface DressesDAO {
     @Query("SELECT * FROM dresses")
     fun getAll(): List<Dresses>
 
+    @Query("SELECT * FROM dresses WHERE locker_id = :ID")
+    fun getByLocker(ID: Long): List<Dresses>
+
     @Query("SELECT COUNT(*) FROM dresses")
     fun getSize(): Long
 

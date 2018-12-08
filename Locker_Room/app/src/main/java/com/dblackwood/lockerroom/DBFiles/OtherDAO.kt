@@ -13,6 +13,9 @@ interface OtherDAO {
     @Query("SELECT * FROM other")
     fun getAll(): List<Other>
 
+    @Query("SELECT * FROM other WHERE locker_id = :ID")
+    fun getByLocker(ID: Long): List<Other>
+
     @Query("SELECT COUNT(*) FROM other")
     fun getSize(): Long
 

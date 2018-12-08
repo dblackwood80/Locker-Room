@@ -32,6 +32,22 @@ class Home : AppCompatActivity() {
         btnAddClothes.setOnClickListener()
         {
             val intent = Intent(this, AddingClothes::class.java)
+            intent.putExtra("DeletingCloth", false)
+            startActivity(intent)
+        }
+
+        val btnDeleteClothes = findViewById<Button>(R.id.btn_removeClothes)
+        btnDeleteClothes.setOnClickListener()
+        {
+            val intent = Intent(this, AddingClothes::class.java)
+            intent.putExtra("DeletingCloth", true)
+            startActivity(intent)
+        }
+
+        val btnMoreFunctions = findViewById<Button>(R.id.btn_More)
+        btnMoreFunctions.setOnClickListener()
+        {
+            val intent = Intent(this, Home2::class.java)
             startActivity(intent)
         }
     }

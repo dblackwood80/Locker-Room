@@ -6,7 +6,7 @@ import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = "socks")
 data class Socks (
-        @PrimaryKey(autoGenerate = true) var sock_id: Long?,
+        @PrimaryKey(autoGenerate = true) var sock_id: Long,
         @ColumnInfo(name = "locker_id") var lck_id: Int,
         @ColumnInfo(name = "price") var prc: Double,
         @ColumnInfo(name = "brand") var brnd: String,

@@ -13,6 +13,9 @@ interface TeesDAO {
     @Query("SELECT * FROM tees")
     fun getAll(): List<Tees>
 
+    @Query("SELECT * FROM tees WHERE locker_id = :ID")
+    fun getByLocker(ID: Long): List<Tees>
+
     @Query("SELECT COUNT(*) FROM tees")
     fun getSize(): Long
 

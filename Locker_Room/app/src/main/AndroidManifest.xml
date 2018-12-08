@@ -17,10 +17,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddingClothes" />
-        <activity android:name=".AddClothingInfo" android:windowSoftInputMode="adjustPan|stateVisible"/>
+        <activity
+            android:name=".AddClothingInfo"
+            android:windowSoftInputMode="adjustPan|stateVisible" />
         <activity android:name=".AddLockerPage" />
         <activity android:name=".ChooseLocker" />
-        <activity android:name=".DeleteLockerPage"></activity>
+        <activity android:name=".DeleteClothes" />
+        <activity android:name=".DeleteLockerPage" />
+        <activity android:name=".SearchClothing" />
+        <activity android:name=".Home2"></activity>
     </application>
 
 </manifest>

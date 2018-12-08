@@ -38,7 +38,7 @@ class AddLockerPage : AppCompatActivity() {
             cUiHandler.post {
                     if ((checkData == null || checkData.isEmpty()) && locName != "")
                     {
-                        val lock = Locker(null, locName)
+                        val lock = Locker(0, locName)
                         insertLocker(lock)
                         Log.i("SIZE OF LIST: ", checkData?.size.toString())
                     }

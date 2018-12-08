@@ -34,7 +34,24 @@ class AddClothingInfo : AppCompatActivity() {
 
         val intent: Intent = intent
         val articleType: String? = intent.extras?.getString("ClothingType")
+        val lockersID = intent.extras?.getInt("PassID")
         val lockersName = intent.extras?.getString("LockerName")
+
+        val lockersClothingID = intent.extras?.getLong("ClothingID")
+        val lockersPrice = intent.extras?.getDouble("ClothingPrice")
+        val lockersBrand = intent.extras?.getString("ClothingBrand")
+        val lockersQty = intent.extras?.getInt("ClothingQty")
+        val lockersDescrip = intent.extras?.getString("ClothingDescrip")
+        val lockersClr = intent.extras?.getString("ClothingClr")
+        val lockersSize = intent.extras?.getString("ClothingSize")
+
+        val updating: Boolean? = intent.extras?.getBoolean("UpdatingClothing")
+        val searching: Boolean? = intent.extras?.getBoolean("SearchingClothing")
+
+        val priEditText: EditText = EditText(baseContext)
+        priEditText.setText(lockersPrice.toString())
+
+        //var ogField = arrayOf<EditText>(lockersPrice, lockersBrand, lockersQty, lockersDescrip, lockersClr, lockersSize)
 
 
         var price: EditText = findViewById(R.id.editTextPrice)
@@ -44,26 +61,94 @@ class AddClothingInfo : AppCompatActivity() {
         var clr: EditText = findViewById(R.id.editTextColor)
         var size: EditText = findViewById(R.id.editTextSize)
 
+        var fields = arrayOf(price, brand, qty, descrip, clr, size)
+
+        fields[0] = priEditText
+
+        if (updating!!)
+        {
+            price.setText(lockersPrice.toString())
+            brand.setText(lockersBrand.toString())
+            qty.setText(lockersQty.toString())
+            descrip.setText(lockersDescrip.toString())
+            clr.setText(lockersClr.toString())
+            size.setText(lockersSize.toString())
+        }
+
+        //price.text?. = lockersPrice
+
         Log.i("PRICE CHECK: ", articleType.toString())
         Log.i("PRICE CHECK2: ", lockersName.toString())
 
         var finishBtn: Button = findViewById(R.id.clothingFinishBtn)
 
+        var curr = arrayOf(fields)
+
+        var que = ""
+        var fieldNum = 0
+
         fun validate(fields: Array<EditText>):Boolean
         {
-            for(i in fields.indices){
-            val currentField = fields[i];
-            if(currentField.text.toString().isEmpty()){
-                return false
+            var count = 0
+            if (searching!!)
+            {
+                for(i in fields.indices)
+                {
+                    val currentField = fields[i]
+                    if(currentField.text.toString().isNotEmpty())
+                    {
+                        count++
+
+                        if (count == 1)
+                        {
+                            que = currentField.text.toString()
+                            fieldNum = i
+                            //return true
+                        }
+                        else if (count > 1)
+                        {
+                            Log.i("ONETWO", "HERE")
+                            Toast.makeText(baseContext, "YOU CAN SEARCH WITH ONLY ONE ATTRIBUTE", Toast.LENGTH_LONG).show()
+                            return false
+                        }
+                    }
+                }
+
+                if (count == 1)
+                {
+                    return true
+                }
+
+                /*if (count == 1)
+                {
+                    if
+
+                    return true
+                }
+                else if (count > 1)
+                {
+                    Log.i("ONETWO", "HERE")
+                    Toast.makeText(baseContext, "YOU CAN SEARCH WITH ONLY ONE ATTRIBUTE", Toast.LENGTH_LONG).show()
+                    return false
+                }*/
             }
-        }
+
+
+            for(i in fields.indices)
+            {
+                val currentField = fields[i]
+                    if(currentField.text.toString().isEmpty())
+                    {
+                        return false
+                    }
+            }
             return true
         }
 
         val tw = object: TextWatcher
         {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-
+                Log.i("HERE", "OOOO")
             }
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
@@ -121,20 +206,144 @@ class AddClothingInfo : AppCompatActivity() {
 
             when (articleType)
             {
-                "Accessories" -> {
-                    val getSize = Runnable {
-                        val fullSize = cDb?.accessoriesDAO()?.getSize()
+                "Accessories" -> run{
 
-                        var inst = Accessories(fullSize, 1, price.text.toString().toDouble(), brand.text.toString(), qty.text.toString().toInt(), descrip.text.toString(), clr.text.toString(), size.text.toString())
-                        val task = Runnable { cDb?.accessoriesDAO()?.insertAcce(inst) }
-                        cDbWorkerThread.postTask(task)
+                    if (searching!!)
+                    {
+                        var datasetStrings = arrayListOf<String>()
+                        Log.i(que, ", " + fieldNum.toString())
+                        val task2 = Runnable { val ins = cDb?.accessoriesDAO()?.getAll()
+                            if (ins != null && searching!!) {
+                                for (a in ins)
+                                {
+                                  when (fieldNum)
+                                  {
+                                      0 -> {
+                                                if (a.prc == que.toDouble())
+                                                {
+                                                    datasetStrings.add("$" + a.prc.toString() + ", " + a.brnd.toString() + ", " + a.qty.toString() + ", " + a.clr.toString() + ", " + a.sz)
+                                                    Toast.makeText(baseContext, "HOORAY", Toast.LENGTH_SHORT).show()
+                                                    val intent = Intent(baseContext, SearchClothing::class.java)
+                                                    var extras = Bundle()
+                                                    extras.putBoolean("SearchingClothing", true)
+                                                    extras.putString("ClothingType", articleType)
+                                                    extras.putStringArrayList("MatchingValues", datasetStrings)
+                                                    extras.putString("LockerName", lockersName)
+                                                    extras.putLong("PassID", lockersNameID.toLong())
+                                                    intent.putExtras(extras)
+                                                    startActivity(intent)
+                                                    finish()
+                                                }
+                                           }
+
+                                      1 -> {
+                                          if (a.brnd == que)
+                                          {
+                                              datasetStrings.add("$" + a.prc.toString() + ", " + a.brnd.toString() + ", " + a.qty.toString() + ", " + a.clr.toString() + ", " + a.sz)
+                                              Toast.makeText(baseContext, "HOORAY", Toast.LENGTH_SHORT).show()
+                                              val intent = Intent(baseContext, SearchClothing::class.java)
+                                              var extras = Bundle()
+                                              extras.putBoolean("SearchingClothing", true)
+                                              extras.putString("ClothingType", articleType)
+                                              extras.putStringArrayList("MatchingValues", datasetStrings)
+                                              extras.putString("LockerName", lockersName)
+                                              extras.putLong("PassID", lockersNameID.toLong())
+                                              intent.putExtras(extras)
+                                              startActivity(intent)
+                                              finish()
+                                          }
+                                      }
+
+                                      2 -> {
+                                          if (a.qty == que.toInt())
+                                          {
+                                              datasetStrings.add("$" + a.prc.toString() + ", " + a.brnd.toString() + ", " + a.qty.toString() + ", " + a.clr.toString() + ", " + a.sz)
+                                              Toast.makeText(baseContext, "HOORAY", Toast.LENGTH_SHORT).show()
+                                              val intent = Intent(baseContext, SearchClothing::class.java)
+                                              var extras = Bundle()
+                                              extras.putBoolean("SearchingClothing", true)
+                                              extras.putString("ClothingType", articleType)
+                                              extras.putStringArrayList("MatchingValues", datasetStrings)
+                                              extras.putString("LockerName", lockersName)
+                                              extras.putLong("PassID", lockersNameID.toLong())
+                                              intent.putExtras(extras)
+                                              startActivity(intent)
+                                              finish()
+                                          }
+                                      }
+
+                                      3 -> {
+                                          if (a.clr == que)
+                                          {
+                                              datasetStrings.add("$" + a.prc.toString() + ", " + a.brnd.toString() + ", " + a.qty.toString() + ", " + a.clr.toString() + ", " + a.sz)
+                                              Toast.makeText(baseContext, "HOORAY", Toast.LENGTH_SHORT).show()
+                                              val intent = Intent(baseContext, SearchClothing::class.java)
+                                              var extras = Bundle()
+                                              extras.putBoolean("SearchingClothing", true)
+                                              extras.putString("ClothingType", articleType)
+                                              extras.putStringArrayList("MatchingValues", datasetStrings)
+                                              extras.putString("LockerName", lockersName)
+                                              extras.putLong("PassID", lockersNameID.toLong())
+                                              intent.putExtras(extras)
+                                              startActivity(intent)
+                                              finish()
+                                          }
+                                      }
+
+                                      4 -> {
+                                          if (a.sz == que)
+                                          {
+                                              datasetStrings.add("$" + a.prc.toString() + ", " + a.brnd.toString() + ", " + a.qty.toString() + ", " + a.clr.toString() + ", " + a.sz)
+                                              Toast.makeText(baseContext, "HOORAY", Toast.LENGTH_SHORT).show()
+                                              val intent = Intent(baseContext, SearchClothing::class.java)
+                                              var extras = Bundle()
+                                              extras.putBoolean("SearchingClothing", true)
+                                              extras.putString("ClothingType", articleType)
+                                              extras.putStringArrayList("MatchingValues", datasetStrings)
+                                              extras.putString("LockerName", lockersName)
+                                              extras.putLong("PassID", lockersNameID.toLong())
+                                              intent.putExtras(extras)
+                                              startActivity(intent)
+                                              finish()
+                                          }
+                                      }
+                                  }
+                                }
+                            }
+                        }
+                        cDbWorkerThread.postTask(task2)
                     }
-                    cDbWorkerThread.postTask(getSize)
+
+                    if (updating!!)
+                    {
+                        val del = Accessories(lockersClothingID!!, lockersID!!, lockersPrice!!, lockersBrand!!, lockersQty!!, lockersDescrip, lockersClr!!, lockersSize!!)
+
+                        val removeOld = Runnable { val idNum = cDb?.accessoriesDAO()?.deleteAcce(del) }
+                        cDbWorkerThread.postTask(removeOld)
+                    }
+
+                    if (!searching!!) {
+                        val getSize = Runnable {
+                            val fullSize = cDb?.accessoriesDAO()?.getSize()
+
+                            var inst = Accessories(0, 1, price.text.toString().toDouble(), brand.text.toString(), Integer.parseInt(qty.text.toString()), descrip.text.toString(), clr.text.toString(), size.text.toString())
+                            val task = Runnable { cDb?.accessoriesDAO()?.insertAcce(inst) }
+                            cDbWorkerThread.postTask(task)
+
+                        }
+                        cDbWorkerThread.postTask(getSize)
+                    }
+
 
                     val task2 = Runnable { val ins = cDb?.accessoriesDAO()?.getAll()
-                        if (ins != null) {
+                        if (ins != null && searching!!) {
                             for (a in ins)
                             {
+                                //if (a.prc == price.text)
+                                //{
+
+                                //}
+
                                 Log.i("ACCE CHECK: " , a.acce_id.toString() + ", " + a.lck_id.toString())
                             }
                         }
@@ -143,13 +352,129 @@ class AddClothingInfo : AppCompatActivity() {
                 }
 
                 "Tees/Long Sleeves" -> {
-                    val getSize = Runnable {
-                        val fullSize = cDb?.teesDAO()?.getSize()
-                        var inst = Tees(fullSize, 1, price.text.toString().toDouble(), brand.text.toString(), qty.text.toString().toInt(), descrip.text.toString(), clr.text.toString(), size.text.toString())
-                        val task = Runnable { cDb?.teesDAO()?.insertTee(inst) }
-                        cDbWorkerThread.postTask(task)
+                    if (searching!!)
+                    {
+                        var datasetStrings = arrayListOf<String>()
+                        Log.i(que, ", " + fieldNum.toString())
+                        val task2 = Runnable { val ins = cDb?.teesDAO()?.getAll()
+                            if (ins != null && searching!!) {
+                                for (a in ins)
+                                {
+                                    when (fieldNum)
+                                    {
+                                        0 -> {
+                                            if (a.prc == que.toDouble())
+                                            {
+                                                datasetStrings.add("$" + a.prc.toString() + ", " + a.brnd.toString() + ", " + a.qty.toString() + ", " + a.clr.toString() + ", " + a.sz)
+                                                Toast.makeText(baseContext, "HOORAY", Toast.LENGTH_SHORT).show()
+                                                val intent = Intent(baseContext, SearchClothing::class.java)
+                                                var extras = Bundle()
+                                                extras.putBoolean("SearchingClothing", true)
+                                                extras.putString("ClothingType", articleType)
+                                                extras.putStringArrayList("MatchingValues", datasetStrings)
+                                                extras.putString("LockerName", lockersName)
+                                                extras.putLong("PassID", lockersNameID.toLong())
+                                                intent.putExtras(extras)
+                                                startActivity(intent)
+                                                finish()
+                                            }
+                                        }
+
+                                        1 -> {
+                                            if (a.brnd == que)
+                                            {
+                                                datasetStrings.add("$" + a.prc.toString() + ", " + a.brnd.toString() + ", " + a.qty.toString() + ", " + a.clr.toString() + ", " + a.sz)
+                                                Toast.makeText(baseContext, "HOORAY", Toast.LENGTH_SHORT).show()
+                                                val intent = Intent(baseContext, SearchClothing::class.java)
+                                                var extras = Bundle()
+                                                extras.putBoolean("SearchingClothing", true)
+                                                extras.putString("ClothingType", articleType)
+                                                extras.putStringArrayList("MatchingValues", datasetStrings)
+                                                extras.putString("LockerName", lockersName)
+                                                extras.putLong("PassID", lockersNameID.toLong())
+                                                intent.putExtras(extras)
+                                                startActivity(intent)
+                                                finish()
+                                            }
+                                        }
+
+                                        2 -> {
+                                            if (a.qty == que.toInt())
+                                            {
+                                                datasetStrings.add("$" + a.prc.toString() + ", " + a.brnd.toString() + ", " + a.qty.toString() + ", " + a.clr.toString() + ", " + a.sz)
+                                                Toast.makeText(baseContext, "HOORAY", Toast.LENGTH_SHORT).show()
+                                                val intent = Intent(baseContext, SearchClothing::class.java)
+                                                var extras = Bundle()
+                                                extras.putBoolean("SearchingClothing", true)
+                                                extras.putString("ClothingType", articleType)
+                                                extras.putStringArrayList("MatchingValues", datasetStrings)
+                                                extras.putString("LockerName", lockersName)
+                                                extras.putLong("PassID", lockersNameID.toLong())
+                                                intent.putExtras(extras)
+                                                startActivity(intent)
+                                                finish()
+                                            }
+                                        }
+
+                                        3 -> {
+                                            if (a.clr == que)
+                                            {
+                                                datasetStrings.add("$" + a.prc.toString() + ", " + a.brnd.toString() + ", " + a.qty.toString() + ", " + a.clr.toString() + ", " + a.sz)
+                                                Toast.makeText(baseContext, "HOORAY", Toast.LENGTH_SHORT).show()
+                                                val intent = Intent(baseContext, SearchClothing::class.java)
+                                                var extras = Bundle()
+                                                extras.putBoolean("SearchingClothing", true)
+                                                extras.putString("ClothingType", articleType)
+                                                extras.putStringArrayList("MatchingValues", datasetStrings)
+                                                extras.putString("LockerName", lockersName)
+                                                extras.putLong("PassID", lockersNameID.toLong())
+                                                intent.putExtras(extras)
+                                                startActivity(intent)
+                                                finish()
+                                            }
+                                        }
+
+                                        4 -> {
+                                            if (a.sz == que)
+                                            {
+                                                datasetStrings.add("$" + a.prc.toString() + ", " + a.brnd.toString() + ", " + a.qty.toString() + ", " + a.clr.toString() + ", " + a.sz)
+                                                Toast.makeText(baseContext, "HOORAY", Toast.LENGTH_SHORT).show()
+                                                val intent = Intent(baseContext, SearchClothing::class.java)
+                                                var extras = Bundle()
+                                                extras.putBoolean("SearchingClothing", true)
+                                                extras.putString("ClothingType", articleType)
+                                                extras.putStringArrayList("MatchingValues", datasetStrings)
+                                                extras.putString("LockerName", lockersName)
+                                                extras.putLong("PassID", lockersNameID.toLong())
+                                                intent.putExtras(extras)
+                                                startActivity(intent)
+                                                finish()
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        cDbWorkerThread.postTask(task2)
+
                     }
-                    cDbWorkerThread.postTask(getSize)
+
+                    if (updating!!)
+                    {
+                        val del = Tees(lockersClothingID!!, lockersID!!, lockersPrice!!, lockersBrand!!, lockersQty!!, lockersDescrip, lockersClr!!, lockersSize!!)
+
+                        val removeOld = Runnable { val idNum = cDb?.teesDAO()?.deleteTee(del) }
+                        cDbWorkerThread.postTask(removeOld)
+                    }
+                    if (!searching!!) {
+                        val getSize = Runnable {
+                            val fullSize = cDb?.teesDAO()?.getSize()
+                            var inst = Tees(0, 2, price.text.toString().toDouble(), brand.text.toString(), Integer.parseInt(qty.toString()), descrip.text.toString(), clr.text.toString(), size.text.toString())
+                            val task = Runnable { cDb?.teesDAO()?.insertTee(inst) }
+                            cDbWorkerThread.postTask(task)
+                        }
+                        cDbWorkerThread.postTask(getSize)
+                    }
 
                     val task2 = Runnable { val ins = cDb?.teesDAO()?.getAll()
                         if (ins != null) {
@@ -163,13 +488,23 @@ class AddClothingInfo : AppCompatActivity() {
                 }
 
                 "Outerwear" -> {
-                    val getSize = Runnable {
-                        val fullSize = cDb?.outerWearDAO()?.getSize()
-                        var inst = OuterWear(fullSize, 1, price.text.toString().toDouble(), brand.text.toString(), qty.text.toString().toInt(), descrip.text.toString(), clr.text.toString(), size.text.toString())
-                        val task = Runnable { cDb?.outerWearDAO()?.insertOuter(inst) }
-                        cDbWorkerThread.postTask(task)
+
+                    if (updating!!)
+                    {
+                        val del = OuterWear(lockersClothingID!!, lockersID!!, lockersPrice!!, lockersBrand!!, lockersQty!!, lockersDescrip, lockersClr!!, lockersSize!!)
+
+                        val removeOld = Runnable { val idNum = cDb?.outerWearDAO()?.deleteOuter(del) }
+                        cDbWorkerThread.postTask(removeOld)
                     }
-                    cDbWorkerThread.postTask(getSize)
+                    if (!searching!!) {
+                        val getSize = Runnable {
+                            val fullSize = cDb?.outerWearDAO()?.getSize()
+                            var inst = OuterWear(0, 1, price.text.toString().toDouble(), brand.text.toString(), Integer.parseInt(qty.toString()), descrip.text.toString(), clr.text.toString(), size.text.toString())
+                            val task = Runnable { cDb?.outerWearDAO()?.insertOuter(inst) }
+                            cDbWorkerThread.postTask(task)
+                        }
+                        cDbWorkerThread.postTask(getSize)
+                    }
 
                     val task2 = Runnable { val ins = cDb?.outerWearDAO()?.getAll()
                         if (ins != null) {
@@ -183,13 +518,23 @@ class AddClothingInfo : AppCompatActivity() {
                 }
 
                 "Shoes" -> {
-                    val getSize = Runnable {
-                        val fullSize = cDb?.shoesDAO()?.getSize()
-                        var inst = Shoes(fullSize, 1, price.text.toString().toDouble(), brand.text.toString(), qty.text.toString().toInt(), descrip.text.toString(), clr.text.toString(), size.text.toString())
-                        val task = Runnable { cDb?.shoesDAO()?.insertShoe(inst) }
-                        cDbWorkerThread.postTask(task)
+
+                    if (updating!!)
+                    {
+                        val del = Shoes(lockersClothingID!!, lockersID!!, lockersPrice!!, lockersBrand!!, lockersQty!!, lockersDescrip, lockersClr!!, lockersSize!!)
+
+                        val removeOld = Runnable { val idNum = cDb?.shoesDAO()?.deleteShoe(del) }
+                        cDbWorkerThread.postTask(removeOld)
                     }
-                    cDbWorkerThread.postTask(getSize)
+                    if (!searching!!) {
+                        val getSize = Runnable {
+                            val fullSize = cDb?.shoesDAO()?.getSize()
+                            var inst = Shoes(0, 1, price.text.toString().toDouble(), brand.text.toString(), Integer.parseInt(qty.toString()), descrip.text.toString(), clr.text.toString(), size.text.toString())
+                            val task = Runnable { cDb?.shoesDAO()?.insertShoe(inst) }
+                            cDbWorkerThread.postTask(task)
+                        }
+                        cDbWorkerThread.postTask(getSize)
+                    }
 
                     val task2 = Runnable { val ins = cDb?.shoesDAO()?.getAll()
                         Log.i("NOT RUN", "HERE")
@@ -210,6 +555,15 @@ class AddClothingInfo : AppCompatActivity() {
                 }
 
                 "Socks" -> {
+
+                    if (updating!!)
+                    {
+                        val del = Socks(lockersClothingID!!, lockersID!!, lockersPrice!!, lockersBrand!!, lockersQty!!, lockersDescrip, lockersClr!!, lockersSize!!)
+
+                        val removeOld = Runnable { val idNum = cDb?.socksDAO()?.deleteSock(del) }
+                        cDbWorkerThread.postTask(removeOld)
+                    }
+
                     val getSize = Runnable {
                         val fullSize = cDb?.socksDAO()?.getSize()
 
@@ -223,7 +577,7 @@ class AddClothingInfo : AppCompatActivity() {
                         }
 
 
-                        var inst = Socks(fullSize, 1, price.text.toString().toDouble(), brand.text.toString(), qty.text.toString().toInt(), descrip.text.toString(), clr.text.toString(), size.text.toString())
+                        var inst = Socks(0, 1, price.text.toString().toDouble(), brand.text.toString(), Integer.parseInt(qty.toString()), descrip.text.toString(), clr.text.toString(), size.text.toString())
                         val task = Runnable { cDb?.socksDAO()?.insertSock(inst) }
                         cDbWorkerThread.postTask(task)
                     }
@@ -241,6 +595,15 @@ class AddClothingInfo : AppCompatActivity() {
                 }
 
                 "Pants/Shorts" -> {
+
+                    if (updating!!)
+                    {
+                        val del = Pants(lockersClothingID!!, lockersID!!, lockersPrice!!, lockersBrand!!, lockersQty!!, lockersDescrip, lockersClr!!, lockersSize!!)
+
+                        val removeOld = Runnable { val idNum = cDb?.pantsDAO()?.deletePant(del) }
+                        cDbWorkerThread.postTask(removeOld)
+                    }
+
                     val getSize = Runnable {
                         val fullSize = cDb?.pantsDAO()?.getSize()
 
@@ -255,7 +618,7 @@ class AddClothingInfo : AppCompatActivity() {
                         }
 
 
-                        var inst = Pants(fullSize, 1, price.text.toString().toDouble(), brand.text.toString(), qty.text.toString().toInt(), descrip.text.toString(), clr.text.toString(), size.text.toString())
+                        var inst = Pants(0, 1, price.text.toString().toDouble(), brand.text.toString(), Integer.parseInt(qty.toString()), descrip.text.toString(), clr.text.toString(), size.text.toString())
                         val task = Runnable { cDb?.pantsDAO()?.insertPant(inst) }
                         cDbWorkerThread.postTask(task)
                     }
@@ -277,13 +640,23 @@ class AddClothingInfo : AppCompatActivity() {
                 }
 
                 "Dresses" -> {
-                    val getSize = Runnable {
-                        val fullSize = cDb?.dressesDAO()?.getSize()
-                        var inst = Dresses(fullSize, 1, price.text.toString().toDouble(), brand.text.toString(), qty.text.toString().toInt(), descrip.text.toString(), clr.text.toString(), size.text.toString())
-                        val task = Runnable { cDb?.dressesDAO()?.insertDress(inst) }
-                        cDbWorkerThread.postTask(task)
+
+                    if (updating!!)
+                    {
+                        val del = Dresses(lockersClothingID!!, lockersID!!, lockersPrice!!, lockersBrand!!, lockersQty!!, lockersDescrip, lockersClr!!, lockersSize!!)
+
+                        val removeOld = Runnable { val idNum = cDb?.dressesDAO()?.deleteDress(del) }
+                        cDbWorkerThread.postTask(removeOld)
                     }
-                    cDbWorkerThread.postTask(getSize)
+                    if (!searching!!) {
+                        val getSize = Runnable {
+                            val fullSize = cDb?.dressesDAO()?.getSize()
+                            var inst = Dresses(0, 1, price.text.toString().toDouble(), brand.text.toString(), Integer.parseInt(qty.toString()), descrip.text.toString(), clr.text.toString(), size.text.toString())
+                            val task = Runnable { cDb?.dressesDAO()?.insertDress(inst) }
+                            cDbWorkerThread.postTask(task)
+                        }
+                        cDbWorkerThread.postTask(getSize)
+                    }
 
                     val task2 = Runnable { val ins = cDb?.dressesDAO()?.getAll()
                         if (ins != null) {
@@ -297,13 +670,23 @@ class AddClothingInfo : AppCompatActivity() {
                 }
 
                 "Other" -> {
-                    val getSize = Runnable {
-                        val fullSize = cDb?.otherDAO()?.getSize()
-                        var inst = Other(fullSize, 1, price.text.toString().toDouble(), brand.text.toString(), qty.text.toString().toInt(), descrip.text.toString(), clr.text.toString(), size.text.toString())
-                        val task = Runnable { cDb?.otherDAO()?.insertOther(inst) }
-                        cDbWorkerThread.postTask(task)
+
+                    if (updating!!)
+                    {
+                        val del = Other(lockersClothingID!!, lockersID!!, lockersPrice!!, lockersBrand!!, lockersQty!!, lockersDescrip, lockersClr!!, lockersSize!!)
+
+                        val removeOld = Runnable { val idNum = cDb?.otherDAO()?.deleteOther(del) }
+                        cDbWorkerThread.postTask(removeOld)
                     }
-                    cDbWorkerThread.postTask(getSize)
+                    if (!searching!!) {
+                        val getSize = Runnable {
+                            val fullSize = cDb?.otherDAO()?.getSize()
+                            var inst = Other(0, 1, price.text.toString().toDouble(), brand.text.toString(), Integer.parseInt(qty.toString()), descrip.text.toString(), clr.text.toString(), size.text.toString())
+                            val task = Runnable { cDb?.otherDAO()?.insertOther(inst) }
+                            cDbWorkerThread.postTask(task)
+                        }
+                        cDbWorkerThread.postTask(getSize)
+                    }
 
                     val task2 = Runnable { val ins = cDb?.otherDAO()?.getAll()
                         if (ins != null) {
